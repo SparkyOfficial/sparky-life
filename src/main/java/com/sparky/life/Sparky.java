@@ -11,16 +11,18 @@ public class Sparky extends Person {
     private List<String> hobbies;
     private String favoriteLanguage;
     private int energyLevel;
+    private ScheduleManager scheduleManager;
     
     public Sparky() {
         super("Спаркі", 25, "зацікавлений");
         this.hobbies = new ArrayList<>();
         this.favoriteLanguage = "Java";
         this.energyLevel = 100;
+        this.scheduleManager = new ScheduleManager();
         
         // додаємо дефолтні хоббі
         hobbies.add("програмування");
-        hobbies.add("компухтер");
+        hobbies.add("читання");
         hobbies.add("музика");
     }
     
@@ -47,6 +49,60 @@ public class Sparky extends Person {
     
     public void setEnergyLevel(int energyLevel) {
         this.energyLevel = energyLevel;
+    }
+    
+    // нові методи для роботи з розкладом
+    public void setSchedule(ScheduleManager schedule) {
+        this.scheduleManager = schedule;
+    }
+    
+    public ScheduleManager getSchedule() {
+        return scheduleManager;
+    }
+    
+    /**
+     * виконує активність за часом
+     */
+    public void doActivityAt(int hour, int minute) {
+        String activity = scheduleManager.getActivityAt(hour, minute);
+        System.out.println(getName() + " робить о " + 
+            String.format("%02d:%02d", hour, minute) + ": " + activity);
+        
+        // змінюємо енергію і настрій в залежності від активності
+        updateEnergyAndMood(activity);
+    }
+    
+    /**
+     * оновлює енергію і настрій в залежності від активності
+     */
+    private void updateEnergyAndMood(String activity) {
+        switch (activity.toLowerCase()) {
+            case "школа":
+                energyLevel -= 10;
+                setMood("зосереджений");
+                break;
+            case "вільний час":
+                energyLevel += 5;
+                setMood("релаксую");
+                break;
+            case "програмування, ігри, компухтер":
+                energyLevel -= 15;
+                if (activity.contains("програмування")) {
+                    setMood("задоволений");
+                } else {
+                    setMood("щасливий");
+                }
+                break;
+            default:
+                // нічого не робить
+                energyLevel += 2;
+                setMood("спокійний");
+                break;
+        }
+        
+        // обмежуємо рівень енергії між 0 і 100
+        if (energyLevel > 100) energyLevel = 100;
+        if (energyLevel < 0) energyLevel = 0;
     }
     
     // специфічні методи для спаркі

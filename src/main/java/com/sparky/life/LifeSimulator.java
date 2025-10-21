@@ -13,28 +13,22 @@ public class LifeSimulator {
         Sparky sparky = new Sparky();
         System.out.println("Створено: " + sparky);
         
-        // починаємо день
-        sparky.wakeUp();
-        sparky.eat("сніданок з кавою");
+        // показуємо розклад
+        System.out.println("\n" + sparky.getSchedule().toString());
         
-        // працюємо
-        sparky.work();
-        sparky.code("проект життя");
+        // симулюємо день з 00:00 до 23:59 з кроком 30 хвилин
+        System.out.println("\n=== Симуляція дня ===");
+        for (int hour = 0; hour < 24; hour++) {
+            for (int minute = 0; minute < 60; minute += 30) {
+                sparky.doActivityAt(hour, minute);
+                
+                // кожні 6 годин показуємо стан
+                if (minute == 0 && hour % 6 == 0) {
+                    System.out.println("Стан: " + sparky);
+                }
+            }
+        }
         
-        // вивчаємо щось нове
-        sparky.learnNewSkill("машинне навчання");
-        
-        // відпочиваємо
-        sparky.relax();
-        sparky.drinkCoffee();
-        
-        // ще трохи кодимо
-        sparky.code("java додаток");
-        
-        // кінець дня
-        sparky.eat("вечеря");
-        sparky.sleep();
-        
-        System.out.println("\nКінець дня. Стан Спаркі: " + sparky);
+        System.out.println("\nКінець симуляції. Фінальний стан Спаркі: " + sparky);
     }
 }
