@@ -20,7 +20,7 @@ public class Sparky extends Person {
         
         // додаємо дефолтні хоббі
         hobbies.add("програмування");
-        hobbies.add("читання");
+        hobbies.add("компухтер");
         hobbies.add("музика");
     }
     
